@@ -6,15 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".TranslateResultActivity"
     android:orientation="vertical">
+   <RelativeLayout
+       android:layout_marginTop="30dp"
+       android:layout_width="match_parent"
+       android:layout_height="40dp">
+       <TextView
+           android:id="@+id/englishWord"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_alignParentLeft="true"
+           android:layout_marginLeft="10dp"
+           android:textStyle="bold"
+           android:textSize="30sp"/>
+      <TextView
+          android:id="@+id/pronunciation"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_alignParentRight="true"
+          android:textSize="30sp"
+          android:layout_marginRight="10dp"
+          android:textStyle="italic"/>
+   </RelativeLayout>
 
+    <com.ldoublem.loadingviewlib.view.LVCircularJump
+        android:id="@+id/animation_jump"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <ScrollView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:id="@+id/basic_translation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"/>
+    </ScrollView>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200px">
+        android:layout_height="50dp">
         <TextView
-            android:id="@+id/translation"
+            android:id="@+id/detail_translation"
             android:layout_width="match_parent"
-            android:layout_height="300px" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"/>
     </ScrollView>
 
     <RelativeLayout
@@ -29,7 +68,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="330dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/yes"/>
 
             <ImageView
@@ -47,16 +86,16 @@
             android:layout_centerInParent="true"
             android:orientation="vertical">
             <Button
-                android:id="@+id/compassDirection"
+                android:id="@+id/rememberIt"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginTop="330dp"
+                android:layout_marginTop="100dp"
                 android:text="I Remember it!"
                 android:background="@drawable/button"
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/mapDirection"
+                android:id="@+id/putIntoList"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="30dp"

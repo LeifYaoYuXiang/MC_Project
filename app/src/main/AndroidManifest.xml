@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.project">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,13 +12,25 @@
         android:roundIcon="@drawable/dictionary_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SelfTestActivity"></activity>
+        <activity android:name=".SettingActivity" />
         <activity android:name=".PersonalInformationActivity" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".WordListActivity" />
-        <activity android:name=".FunctionListActivity" />
-        <activity android:name=".TranslateResultActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".HistoryActivity" />
+        <activity
+            android:name=".WordListActivity"
+            android:label="Words List"/>
+        <activity
+            android:name=".FunctionListActivity"
+            android:label="Functions"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".TranslateResultActivity"
+            android:label="Translation"/>
+        <activity
+            android:name=".MainActivity"
+            android:label="Main Window"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -23,14 +23,6 @@
         </SearchView>
 
 
-        <com.ldoublem.loadingviewlib.LVChromeLogo
-            android:id="@+id/chrome"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="200px"
-            />
-
         <TextView
             android:id="@+id/swipeInstrcution"
             android:layout_width="match_parent"

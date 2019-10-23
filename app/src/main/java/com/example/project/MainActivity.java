@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.blankj.swipepanel.SwipePanel;
-import com.ldoublem.loadingviewlib.LVChromeLogo;
 
 import java.io.IOException;
 
@@ -28,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textView=findViewById(R.id.swipeInstrcution);
         textView.setText("Want to know more functions?\n" +
                 "SWIPE from LEFT to RIGHT!");
-        LVChromeLogo lvChromeLogo=findViewById(R.id.chrome);
-        lvChromeLogo.startAnim();
+
         final SwipePanel swipePanel=findViewById(R.id.swipePanel);
         swipePanel.setOnFullSwipeListener(new SwipePanel.OnFullSwipeListener() {
             @Override
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(final String s) {
                 String url = "http://fanyi.youdao.com/openapi.do?keyfrom=lewe518&key=70654389&type=data&doctype=json&version=1.1&q="+s;
                 OkHttpClient okHttpClient = new OkHttpClient();
                 final Request request = new Request.Builder()
@@ -64,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent=new Intent(MainActivity.this,TranslateResultActivity.class);
                         Bundle bundle=new Bundle();
                         bundle.putString("translation",networkResponse);
+                        bundle.putString("English",s);
                         intent.putExtras(bundle);
                         startActivity(intent);
-
                     }
                 });
                 return true;
