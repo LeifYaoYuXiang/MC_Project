@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.project">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -12,21 +16,21 @@
         android:roundIcon="@drawable/dictionary_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelfTestActivity"></activity>
+        <activity android:name=".PKActivity"></activity>
+        <activity android:name=".SelfTestActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".PersonalInformationActivity" />
-        <activity
-            android:name=".HistoryActivity" />
+        <activity android:name=".HistoryActivity" />
         <activity
             android:name=".WordListActivity"
-            android:label="Words List"/>
+            android:label="Words List" />
         <activity
             android:name=".FunctionListActivity"
             android:label="Functions"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".TranslateResultActivity"
-            android:label="Translation"/>
+            android:label="Translation" />
         <activity
             android:name=".MainActivity"
             android:label="Main Window"

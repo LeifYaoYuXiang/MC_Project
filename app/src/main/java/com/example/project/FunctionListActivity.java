@@ -42,6 +42,10 @@ public class FunctionListActivity extends AppCompatActivity {
                     Intent intent=new Intent(FunctionListActivity.this,WordListActivity.class);
                     startActivity(intent);
                 }
+                if(position==4){
+                    Intent intent=new Intent(FunctionListActivity.this,PKActivity.class);
+                    startActivity(intent);
+                }
             }
 
             @Override

@@ -38,4 +38,5 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.yalantis:phoenix:1.2.3'
     implementation 'com.ldoublem.loadingview:loadingviewlib:1.0'
+    implementation 'io.palaima:smoothbluetooth:0.1.0'
 }
