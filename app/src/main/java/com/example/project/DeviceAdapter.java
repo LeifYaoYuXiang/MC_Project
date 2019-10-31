@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class DeviceAdapter extends BaseAdapter {
+
     private List<BluetoothDevice> mData;
     private Context mContext;
 

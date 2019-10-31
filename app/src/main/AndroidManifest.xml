@@ -33,7 +33,6 @@
             android:label="Translation" />
         <activity
             android:name=".MainActivity"
-            android:label="Main Window"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

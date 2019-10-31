@@ -1,6 +1,9 @@
 package com.example.project;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +26,7 @@ public class FunctionListActivity extends AppCompatActivity {
 
     private List<Functions> functionsList=new ArrayList<>();
     private FunctionsAdapter functionsAdapter;
+    public int yourChoice=-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +47,7 @@ public class FunctionListActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if(position==4){
-                    Intent intent=new Intent(FunctionListActivity.this,PKActivity.class);
-                    startActivity(intent);
+                   showChosen();
                 }
             }
 
@@ -61,4 +64,34 @@ public class FunctionListActivity extends AppCompatActivity {
             functionsList.add(functions[i]);
         }
     }
+
+    private void showChosen(){
+        final String[] items = { "I want to ask","I want to answer"};
+        final AlertDialog.Builder singleChoiceDialog = new AlertDialog.Builder(FunctionListActivity.this);
+        singleChoiceDialog.setTitle("What do you want to do?");
+        singleChoiceDialog.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("Sure",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (yourChoice != -1) {
+                            Intent intent=new Intent(FunctionListActivity.this,PKActivity.class);
+                            Bundle bundle=new Bundle();
+                            bundle.putInt("choose",yourChoice);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }else{
+
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
 }
