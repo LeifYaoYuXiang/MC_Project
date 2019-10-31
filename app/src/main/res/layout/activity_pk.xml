@@ -18,13 +18,6 @@
         android:layout_height="wrap_content"
         android:text="Begin PK"/>
 
-
-    <Button
-        android:id="@+id/sayHi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Say Hi"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -63,6 +56,7 @@
             android:visibility="gone">
 
             <TextView
+                android:text="HAVE NOT RECEIVE ONE QUESTION"
                 android:id="@+id/question_receive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -77,6 +71,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sure My Answer" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/reply_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/question_asked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/answer_received"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RadioGroup
+                android:id="@+id/answer_correct_or_not"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/correct_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Correct Answer"/>
+                <RadioButton
+                    android:id="@+id/incorrect_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Incorrect Answer"/>
+            </RadioGroup>
+            <Button
+                android:id="@+id/give_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send Feedback"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/feedback_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
 

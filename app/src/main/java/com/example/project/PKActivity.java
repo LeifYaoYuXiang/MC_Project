@@ -14,10 +14,15 @@ import android.service.autofill.RegexValidator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
@@ -32,17 +37,39 @@ public class PKActivity extends AppCompatActivity {
     private TextView status;
     private ListView listView;
     private Button  button;
-    private Button sayHi;
     private List<BluetoothDevice> deviceList=new ArrayList<>();
     private List<BluetoothDevice> bondedDeviceList=new ArrayList<>();
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private Handler mUIHandler = new MyHandler();
 
-    private boolean askWaiting=false;
-    private boolean answerWaiting=false;
-    private boolean askTakingOn=false;
-    private boolean answerTakingOn=false;
+    private LinearLayout questionLayout;
+    private LinearLayout answerLayout;
+    private LinearLayout replyLayout;
+    private LinearLayout feedbackLayout;
+
+    private boolean asker=false;
+    private boolean findServer=false;
+    private boolean findClient=false;
+
+    private Button giveQuestion;
+    private EditText questionToGiven;
+
+    private TextView questionReceive;
+    private EditText answerBack;
+    private Button ensureSendBack;
+
+    private TextView questionAsked;
+    private TextView answerReceived;
+    private RadioGroup correctOrNot;
+    private RadioButton correct;
+    private RadioButton incorrect;
+    private Button sendFeedback;
+    private int idCorrect=0;
+
+    private TextView feedbackTextView;
+
+
 
     private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
         @Override
@@ -86,7 +113,6 @@ public class PKActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +120,9 @@ public class PKActivity extends AppCompatActivity {
         Bundle bundle=intent.getExtras();
         int choose=bundle.getInt("choose");
         if(choose==0){
-            askWaiting=true;
+            asker=true;
         }else{
-            answerWaiting = true;
+            asker=false;
         }
         setContentView(R.layout.activity_pk);
         registerBluetoothReceiver();
@@ -118,13 +144,6 @@ public class PKActivity extends AppCompatActivity {
             }
         });
 
-        sayHi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                say("Hello");
-            }
-        });
-
 
     }
 
@@ -132,11 +151,48 @@ public class PKActivity extends AppCompatActivity {
     private void initUI(){
         listView=findViewById(R.id.device_list);
         button=findViewById(R.id.startPK);
-        sayHi=findViewById(R.id.sayHi);
+        status=findViewById(R.id.showStatus);
+        if(asker){
+            status.setText("You are asking");
+        }else{
+            status.setText("You are answering");
+        }
         deviceAdapter=new DeviceAdapter(deviceList,this);
         listView.setAdapter(deviceAdapter);
         listView.setOnItemClickListener(bondedDeviceClick);
-        status=findViewById(R.id.showStatus);
+
+        questionLayout=findViewById(R.id.question_layout);
+        answerLayout=findViewById(R.id.answer_layout);
+        feedbackLayout=findViewById(R.id.feedback_layout);
+        replyLayout=findViewById(R.id.reply_layout);
+
+        giveQuestion=findViewById(R.id.give_question);
+        questionToGiven=findViewById(R.id.question_to_give);
+        giveQuestion.setOnClickListener(giveQuestionListener);
+
+        questionReceive=findViewById(R.id.question_receive);
+        answerBack=findViewById(R.id.answer_back);
+        ensureSendBack=findViewById(R.id.ensure_send_back);
+        ensureSendBack.setOnClickListener(giveAnswerBack);
+
+        questionAsked=findViewById(R.id.question_asked);
+        answerReceived=findViewById(R.id.answer_received);
+        correctOrNot=findViewById(R.id.answer_correct_or_not);
+        correct=findViewById(R.id.correct_answer);
+        incorrect=findViewById(R.id.incorrect_answer);
+        sendFeedback=findViewById(R.id.give_feedback);
+        sendFeedback.setOnClickListener(giveFeedback);
+        correctOrNot.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                idCorrect=i;
+            }
+        });
+
+        feedbackTextView=findViewById(R.id.feedback);
+
+
+
     }
 
     private void registerBluetoothReceiver(){
@@ -150,17 +206,6 @@ public class PKActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver,intentFilter);
     }
 
-//    private AdapterView.OnItemClickListener bondDeviceClick = new AdapterView.OnItemClickListener() {
-//        @TargetApi(Build.VERSION_CODES.KITKAT)
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//            BluetoothDevice device = deviceList.get(i);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                device.createBond();
-//            }
-//        }
-//    };
-
     private AdapterView.OnItemClickListener bondedDeviceClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -171,8 +216,43 @@ public class PKActivity extends AppCompatActivity {
             mConnectThread = new ConnectThread(device, blueToothController.getAdapter(), mUIHandler);
             mConnectThread.start();
             listView.setVisibility(View.GONE);
+
         }
     };
+
+    private View.OnClickListener giveQuestionListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String question=questionToGiven.getText().toString();
+            say("QUESTION"+"%"+question);
+        }
+    };
+
+    private View.OnClickListener giveAnswerBack=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String question=questionReceive.getText().toString();
+            String answer=answerBack.getText().toString();
+            say("ANSWER"+"%"+question+"-"+answer);
+        }
+    };
+
+    private View.OnClickListener giveFeedback=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(idCorrect==R.id.correct_answer){
+                say("FEEDBACK"+"%"+"CORRECT");
+            }else if(idCorrect==R.id.incorrect_answer){
+                say("FEEDBACK"+"%"+"INCORRECT");
+            }
+            answerLayout.setVisibility(View.GONE);
+            feedbackLayout.setVisibility(View.GONE);
+            replyLayout.setVisibility(View.GONE);
+            questionLayout.setVisibility(View.VISIBLE);
+        }
+    };
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -191,17 +271,21 @@ public class PKActivity extends AppCompatActivity {
             switch (message.what) {
                 case Constant.MSG_GOT_DATA:
                     Toast.makeText(PKActivity.this, "data:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
+                    listen(String.valueOf(message.obj));
                     break;
                 case Constant.MSG_ERROR:
                     Toast.makeText(PKActivity.this, "error:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
                     break;
                 case Constant.MSG_CONNECTED_TO_SERVER:
                     Toast.makeText(PKActivity.this, "连接到服务端", Toast.LENGTH_SHORT).show();
-                    askTakingOn=true;
+                    findServer=true;
+                    updateDisplayToGame();
                     break;
                 case Constant.MSG_GOT_A_CLINET:
                     Toast.makeText(PKActivity.this, "找到服务端", Toast.LENGTH_SHORT).show();
-                    answerTakingOn=true;
+                    findClient=true;
+                    //需要设置一个Boolean值判断是否可以通讯
+                    updateDisplayToGame();
                     break;
             }
         }
@@ -233,22 +317,55 @@ public class PKActivity extends AppCompatActivity {
             String result=feedback[1];
             if("QUESTION".equals(type)){
             //听到的是一个问题，需要自己作出回答
+               questionReceive.setText(result);
+               answerLayout.setVisibility(View.VISIBLE);
+               questionLayout.setVisibility(View.GONE);
+               replyLayout.setVisibility(View.GONE);
+               feedbackLayout.setVisibility(View.GONE);
             }else if ("ANSWER".equals(type)){
             //听到的是一个回答，需要自己做出评分（判断对错）
-            }else if("REPLY".equals(type)){
-            //听到的是一个评分，需要展示出来
+                String[] turnBack=result.split("-");
+                if(turnBack.length==2){
+                    String question=turnBack[0];
+                    String answer=turnBack[1];
+                    replyLayout.setVisibility(View.VISIBLE);
+                    answerLayout.setVisibility(View.GONE);
+                    questionLayout.setVisibility(View.GONE);
+                    feedbackLayout.setVisibility(View.GONE);
+
+                    questionAsked.setText(question);
+                    answerReceived.setText(answer);
+                }else{
+                    Toast.makeText(this, "SOME THING GOES WRONG", Toast.LENGTH_SHORT).show();
+                }
+            }else if("FEEDBACK".equals(type)){
+                feedbackLayout.setVisibility(View.VISIBLE);
+                questionLayout.setVisibility(View.GONE);
+                answerLayout.setVisibility(View.GONE);
+                replyLayout.setVisibility(View.GONE);
+                if("CORRECT".equals(result)){
+                    feedbackTextView.setText("YOU ARE CORRECT");
+                }else{
+                    feedbackTextView.setText("YOU ARE WRONG");
+                }
+             //听到一个判分，需要在界面上进行展示
+
             }
         }else{
             Toast.makeText(this, "Some Thing Wrong!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void updateDisplayToGame(){
+        if(findClient&&findServer){
+            if(asker){
+                questionLayout.setVisibility(View.VISIBLE);
+            }else{
+                answerLayout.setVisibility(View.VISIBLE);
+            }
+        }else{
 
-
-
-
-
-
-
+        }
+    }
 
 }
