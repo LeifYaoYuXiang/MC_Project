@@ -3,6 +3,7 @@ package com.example.project;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,12 +43,28 @@ public class FunctionListActivity extends AppCompatActivity {
             @Override
             public void onItemClickListener(View view) {
                 int position=mainRecylcle.getChildAdapterPosition(view);
+                if(position==0){
+                    Intent intent=new Intent(FunctionListActivity.this,PersonalInformationActivity.class);
+                    startActivity(intent);
+                }
                 if(position==1){
                     Intent intent=new Intent(FunctionListActivity.this,WordListActivity.class);
                     startActivity(intent);
                 }
+                if(position==2){
+                    Intent intent=new Intent(FunctionListActivity.this,SelfTestActivity.class);
+                    startActivity(intent);
+                }
+                if(position==3){
+                    Intent intent=new Intent(FunctionListActivity.this,HistoryActivity.class);
+                    startActivity(intent);
+                }
                 if(position==4){
-                   showChosen();
+                   showInformation();
+                }
+                if(position==5){
+                    Intent intent=new Intent(FunctionListActivity.this, Settings.class);
+                    startActivity(intent);
                 }
             }
 
@@ -94,4 +111,28 @@ public class FunctionListActivity extends AppCompatActivity {
         singleChoiceDialog.show();
     }
 
+    private void showInformation(){
+        final AlertDialog.Builder builder=new AlertDialog.Builder(FunctionListActivity.this);
+        builder.setTitle("INFORM");
+        builder.setMessage("Before you start to use this PK, please ensure that \n 1.You have opened the Bluetooth\n 2.You have connect to your partner and prepare to communicate");
+        builder.setPositiveButton("YES, I ENSURE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                showChosen();
+            }
+        });
+        builder.setNegativeButton("NO, I NEED MORE TIME", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(FunctionListActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
 }

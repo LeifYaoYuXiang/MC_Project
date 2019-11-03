@@ -11,12 +11,20 @@
     <TextView
         android:id="@+id/showStatus"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
     <Button
         android:id="@+id/startPK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Begin PK"/>
+        android:background="@drawable/button"
+        android:layout_gravity="center_horizontal"
+        android:text="Begin PK"
+        android:textSize="10sp"
+        android:layout_marginTop="30dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,13 +47,28 @@
             <EditText
                 android:id="@+id/question_to_give"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="50dp"
+                android:layout_marginTop="100dp"
+                android:hint="Please input the words you want to ask"
+                android:background="@drawable/edittext"/>
 
             <Button
                 android:id="@+id/give_question"
+                android:layout_marginTop="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Give this question!"/>
+                android:background="@drawable/button"
+                android:textSize="15sp"
+                android:text="Ask"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.ldoublem.loadingviewlib.view.LVBlazeWood
+                android:id="@+id/animation_blaze"
+                android:layout_marginTop="60dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -59,18 +82,35 @@
                 android:text="HAVE NOT RECEIVE ONE QUESTION"
                 android:id="@+id/question_receive"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="50dp"/>
 
             <EditText
                 android:id="@+id/answer_back"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="50dp"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="20dp"
+                android:hint="PLease input your answer here"/>
 
             <Button
                 android:id="@+id/ensure_send_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sure My Answer" />
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Sure My Answer"
+                android:background="@drawable/button"/>
+
+            <com.ldoublem.loadingviewlib.view.LVGhost
+                android:id="@+id/animation_ghost"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,39 +119,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
-
             <TextView
                 android:id="@+id/question_asked"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="50dp"/>
+
             <TextView
+                android:layout_marginTop="10dp"
                 android:id="@+id/answer_received"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="15sp"/>
+
             <RadioGroup
                 android:id="@+id/answer_correct_or_not"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal">
                 <RadioButton
                     android:id="@+id/correct_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Correct Answer"/>
+                    android:text="Correct Answer"
+                    android:textSize="13sp" />
                 <RadioButton
                     android:id="@+id/incorrect_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Incorrect Answer"/>
+                    android:text="Incorrect Answer"
+                    android:textSize="13sp"/>
             </RadioGroup>
+
             <Button
                 android:id="@+id/give_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Send Feedback"/>
+                android:text="Send Feedback"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button"
+                android:layout_gravity="center_horizontal"/>
+
+            <com.ldoublem.loadingviewlib.view.LVEatBeans
+                android:id="@+id/animation_eatBeans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"/>
+
 
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/feedback_layout"
@@ -119,15 +180,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
-
             <TextView
                 android:id="@+id/feedback"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:layout_marginTop="50dp"/>
 
+            <Button
+                android:id="@+id/feedback_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button"
+                android:text="15sp"
+                android:visibility="invisible"/>
+
+            <com.ldoublem.loadingviewlib.view.LVFunnyBar
+                android:id="@+id/animation_funnyBar"
+                android:layout_marginTop="60dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
-
-
 
     </RelativeLayout>
 

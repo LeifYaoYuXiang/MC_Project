@@ -5,11 +5,13 @@ android {
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.example.project"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -29,14 +31,22 @@ dependencies {
     //Here It is What I import from other library
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.blankj:swipe-panel:1.2'
-    implementation 'com.google.code.gson:gson:2.2.4'
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:support-v4:28.0.0-rc02'
-    implementation 'com.android.support:design:28.0.0-rc02'
+    //implementation 'com.android.support:support-v4:28.0.0-rc02'
+    //implementation 'com.android.support:design:28.0.0-rc02'
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.yalantis:phoenix:1.2.3'
+    //implementation 'com.yalantis:phoenix:1.2.3'
     implementation 'com.ldoublem.loadingview:loadingviewlib:1.0'
-    implementation 'io.palaima:smoothbluetooth:0.1.0'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    implementation 'com.android.support:multidex:1.0.1'
+    //compile 'com.android.support:multidex:1.+'
+
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
 }

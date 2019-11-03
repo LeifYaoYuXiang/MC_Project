@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelfTestActivity">
+    tools:context=".SelfTestActivity"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/self_test_pronunciation"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="30dp"
+        android:textSize="15sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/self_test_english"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="LLL"/>
+
+    <RelativeLayout
+        android:id="@+id/choose_know_unknown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+        <Button
+            android:id="@+id/know_this_word"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button"
+            android:text="Oh I know this word"
+            android:layout_alignParentLeft="true"/>
+
+        <Button
+            android:id="@+id/unknown_this_word"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button"
+            android:text="Sorry I forget"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/self_test_translation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="100dp">
+
+        <Button
+            android:id="@+id/i_remember_this_word"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button"
+            android:text="OK I remember"
+            android:layout_alignParentLeft="true"/>
+
+        <Button
+            android:id="@+id/jump_to_next_word"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button"
+            android:text="I really forget "
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

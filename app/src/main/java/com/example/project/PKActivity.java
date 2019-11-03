@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ldoublem.loadingviewlib.view.LVBlazeWood;
+import com.ldoublem.loadingviewlib.view.LVEatBeans;
+import com.ldoublem.loadingviewlib.view.LVFunnyBar;
+import com.ldoublem.loadingviewlib.view.LVGhost;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +39,6 @@ import java.util.Scanner;
 
 public class PKActivity extends AppCompatActivity {
     private BlueToothController blueToothController=new BlueToothController();;
-    public static int REQUEST_CODE=0;
     private DeviceAdapter deviceAdapter;
     private TextView status;
     private ListView listView;
@@ -69,9 +75,15 @@ public class PKActivity extends AppCompatActivity {
 
     private TextView feedbackTextView;
 
+    private boolean choosePartner=false;
+
+    private LVBlazeWood lvBlazeWood;
+    private LVGhost lvGhost;
+    private LVEatBeans lvEatBeans;
+    private LVFunnyBar lvFunnyBar;
 
 
-    private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+    private BroadcastReceiver receiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -126,7 +138,7 @@ public class PKActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_pk);
         registerBluetoothReceiver();
-        blueToothController.turnOnBlueTooth(PKActivity.this,REQUEST_CODE);
+
         initUI();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +158,6 @@ public class PKActivity extends AppCompatActivity {
 
 
     }
-
 
     private void initUI(){
         listView=findViewById(R.id.device_list);
@@ -190,9 +201,14 @@ public class PKActivity extends AppCompatActivity {
         });
 
         feedbackTextView=findViewById(R.id.feedback);
+        if(asker){
+            listView.setVisibility(View.GONE);
+        }
 
-
-
+        lvBlazeWood=findViewById(R.id.animation_blaze);
+        lvEatBeans=findViewById(R.id.animation_eatBeans);
+        lvFunnyBar=findViewById(R.id.animation_funnyBar);
+        lvGhost=findViewById(R.id.animation_ghost);
     }
 
     private void registerBluetoothReceiver(){
@@ -203,7 +219,7 @@ public class PKActivity extends AppCompatActivity {
         intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
         intentFilter.addAction(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(broadcastReceiver,intentFilter);
+        registerReceiver(receiver,intentFilter);
     }
 
     private AdapterView.OnItemClickListener bondedDeviceClick = new AdapterView.OnItemClickListener() {
@@ -216,7 +232,6 @@ public class PKActivity extends AppCompatActivity {
             mConnectThread = new ConnectThread(device, blueToothController.getAdapter(), mUIHandler);
             mConnectThread.start();
             listView.setVisibility(View.GONE);
-
         }
     };
 
@@ -248,11 +263,12 @@ public class PKActivity extends AppCompatActivity {
             answerLayout.setVisibility(View.GONE);
             feedbackLayout.setVisibility(View.GONE);
             replyLayout.setVisibility(View.GONE);
+
             questionLayout.setVisibility(View.VISIBLE);
+            questionToGiven.setText("");
+            lvBlazeWood.startAnim();
         }
     };
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -270,22 +286,32 @@ public class PKActivity extends AppCompatActivity {
             super.handleMessage(message);
             switch (message.what) {
                 case Constant.MSG_GOT_DATA:
-                    Toast.makeText(PKActivity.this, "data:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
                     listen(String.valueOf(message.obj));
                     break;
                 case Constant.MSG_ERROR:
                     Toast.makeText(PKActivity.this, "error:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
+                    startActivity(intent);
                     break;
                 case Constant.MSG_CONNECTED_TO_SERVER:
-                    Toast.makeText(PKActivity.this, "连接到服务端", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PKActivity.this, "Connect to One Server", Toast.LENGTH_SHORT).show();
+                    if(asker&&!choosePartner){
+                        listView.setVisibility(View.VISIBLE);
+                    }
+                    choosePartner=true;
                     findServer=true;
                     updateDisplayToGame();
                     break;
                 case Constant.MSG_GOT_A_CLINET:
-                    Toast.makeText(PKActivity.this, "找到服务端", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PKActivity.this, "Connect to One Client", Toast.LENGTH_SHORT).show();
+                    if(asker&&!choosePartner){
+                        listView.setVisibility(View.VISIBLE);
+                    }
+                    choosePartner=true;
                     findClient=true;
-                    //需要设置一个Boolean值判断是否可以通讯
                     updateDisplayToGame();
+                    break;
+                default:
                     break;
             }
         }
@@ -309,29 +335,44 @@ public class PKActivity extends AppCompatActivity {
 
     }
 
-
     private void listen(String string){
         String[] feedback=string.split("%");
         if(feedback.length==2){
             String type=feedback[0];
             String result=feedback[1];
             if("QUESTION".equals(type)){
-            //听到的是一个问题，需要自己作出回答
                questionReceive.setText(result);
                answerLayout.setVisibility(View.VISIBLE);
+               answerBack.setText("");
+               lvGhost.setViewColor(Color.parseColor("#FF5722"));
+               lvGhost.setHandColor(Color.parseColor("#00796B"));
+               lvGhost.startAnim();
+
                questionLayout.setVisibility(View.GONE);
+               lvBlazeWood.stopAnim();
+
                replyLayout.setVisibility(View.GONE);
+               lvEatBeans.stopAnim();
+
                feedbackLayout.setVisibility(View.GONE);
+               lvFunnyBar.stopAnim();
+
             }else if ("ANSWER".equals(type)){
-            //听到的是一个回答，需要自己做出评分（判断对错）
                 String[] turnBack=result.split("-");
                 if(turnBack.length==2){
                     String question=turnBack[0];
                     String answer=turnBack[1];
                     replyLayout.setVisibility(View.VISIBLE);
+                    lvEatBeans.setEyeColor(Color.parseColor("#FF5722"));
+                    lvEatBeans.setViewColor(Color.parseColor("#00796B"));
+                    lvEatBeans.startAnim(5000);
+
                     answerLayout.setVisibility(View.GONE);
+                    lvGhost.stopAnim();
                     questionLayout.setVisibility(View.GONE);
+                    lvBlazeWood.stopAnim();
                     feedbackLayout.setVisibility(View.GONE);
+                    lvFunnyBar.stopAnim();
 
                     questionAsked.setText(question);
                     answerReceived.setText(answer);
@@ -340,16 +381,20 @@ public class PKActivity extends AppCompatActivity {
                 }
             }else if("FEEDBACK".equals(type)){
                 feedbackLayout.setVisibility(View.VISIBLE);
+                lvFunnyBar.startAnim();
+
                 questionLayout.setVisibility(View.GONE);
+                lvBlazeWood.stopAnim();
                 answerLayout.setVisibility(View.GONE);
+                lvGhost.stopAnim();
                 replyLayout.setVisibility(View.GONE);
+                lvEatBeans.stopAnim();
+
                 if("CORRECT".equals(result)){
                     feedbackTextView.setText("YOU ARE CORRECT");
                 }else{
                     feedbackTextView.setText("YOU ARE WRONG");
                 }
-             //听到一个判分，需要在界面上进行展示
-
             }
         }else{
             Toast.makeText(this, "Some Thing Wrong!", Toast.LENGTH_SHORT).show();
@@ -360,12 +405,25 @@ public class PKActivity extends AppCompatActivity {
         if(findClient&&findServer){
             if(asker){
                 questionLayout.setVisibility(View.VISIBLE);
+                lvBlazeWood.startAnim();
             }else{
-                answerLayout.setVisibility(View.VISIBLE);
+
             }
         }else{
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mAcceptThread != null) {
+            mAcceptThread.cancel();
+        }
+        if (mConnectThread != null) {
+            mConnectThread.cancel();
+        }
+        unregisterReceiver(receiver);
     }
 
 }

@@ -12,10 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
-
-import com.yalantis.phoenix.PullToRefreshView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +19,6 @@ import java.util.List;
  * @author Leif
  */
 public class WordListActivity extends AppCompatActivity {
-    private PullToRefreshView mPullToRefreshView;
     private ListView TranslationsList;
     private WordListOpenHelper wordListOpenHelper;
     private List<Word> wordList=new ArrayList<>();
@@ -36,19 +31,6 @@ public class WordListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_word_list);
 
         TranslationsList=findViewById(R.id.translations_pairs);
-        mPullToRefreshView = this.findViewById(R.id.pull_to_refresh);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-
         this.wordListOpenHelper=new WordListOpenHelper(this,"Word.db",null,1);
         SearchView searchView=findViewById(R.id.searchStoredWords);
         searchView.setSubmitButtonEnabled(true);

@@ -4,11 +4,20 @@ public class Word {
     private String English;
     private String Chinese;
     private int id;
+    private String ChineseDetail;
+    private String pronunciation;
 
     public Word(int id,String English, String Chinese){
         this.id=id;
         this.English=English;
         this.Chinese=Chinese;
+    }
+
+    public Word(String English, String pronunciation,String ChineseBasic, String ChineseDetail){
+        this.English=English;
+        this.Chinese=ChineseBasic;
+        this.ChineseDetail=ChineseDetail;
+        this.pronunciation=pronunciation;
     }
 
     public String getEnglish() {
@@ -33,5 +42,22 @@ public class Word {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public String getChineseDetail() {
+        return ChineseDetail;
+    }
+
+    public void setChineseDetail(String chineseDetail) {
+        ChineseDetail = chineseDetail;
+    }
+
+    public String getPronunciation() {
+        return pronunciation;
+    }
+
+    public void setPronunciation(String pronunciation) {
+        this.pronunciation = pronunciation;
     }
 }
