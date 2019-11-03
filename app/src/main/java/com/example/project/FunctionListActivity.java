@@ -63,7 +63,7 @@ public class FunctionListActivity extends AppCompatActivity {
                    showInformation();
                 }
                 if(position==5){
-                    Intent intent=new Intent(FunctionListActivity.this, Settings.class);
+                    Intent intent=new Intent(FunctionListActivity.this, SettingsActivity.class);
                     startActivity(intent);
                 }
             }
@@ -114,7 +114,7 @@ public class FunctionListActivity extends AppCompatActivity {
     private void showInformation(){
         final AlertDialog.Builder builder=new AlertDialog.Builder(FunctionListActivity.this);
         builder.setTitle("INFORM");
-        builder.setMessage("Before you start to use this PK, please ensure that \n 1.You have opened the Bluetooth\n 2.You have connect to your partner and prepare to communicate");
+        builder.setMessage("Before you start to use PK Mode, please ensure that \n 1.You open Bluetooth\n 2.You connect to your partner and prepare to communicate");
         builder.setPositiveButton("YES, I ENSURE", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

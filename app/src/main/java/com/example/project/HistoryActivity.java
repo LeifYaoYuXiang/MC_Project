@@ -1,80 +1,158 @@
 package com.example.project;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class HistoryActivity extends AppCompatActivity {
-    private BarChart barChart;
+    private HistoryDatabaseOpenHelper historyDatabaseOpenHelper;
+    private ArrayList<Record> recordArrayList=new ArrayList<>();
+
+    private LineChart lineChart;
+    private ArrayList<Entry> rememberPoints=new ArrayList<>();
+    private ArrayList<Entry> forgetPoints=new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        PieChart pieChart=findViewById(R.id.pieChart);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setRotationEnabled(true);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setHighlightPerTapEnabled(true);
-        Legend l=pieChart.getLegend();
-        l.setEnabled(true);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        //设置图例的形状
-        l.setForm(Legend.LegendForm.DEFAULT);
-        //设置图例的大小
-        l.setFormSize(10);
-        //设置每个图例实体中标签和形状之间的间距
-        l.setFormToTextSpace(10f);
-        l.setDrawInside(false);
-        //设置图列换行(注意使用影响性能,仅适用legend位于图表下面)
-        l.setWordWrapEnabled(true);
-        //设置图例实体之间延X轴的间距（setOrientation = HORIZONTAL有效）
-        l.setXEntrySpace(10f);
-        //设置图例实体之间延Y轴的间距（setOrientation = VERTICAL 有效）
-        l.setYEntrySpace(8f);
-        //设置比例块Y轴偏移量
-        l.setYOffset(0f);
-        //设置图例标签文本的大小
-        l.setTextSize(18f);
-        l.setTextColor(Color.parseColor("#333333"));
+        lineChart = findViewById(R.id.line_chart);
 
-        //数据列表
-        ArrayList<PieEntry> pieEntryList = new ArrayList();
-        pieEntryList.add(new PieEntry(200,"专注学习"));
-        pieEntryList.add(new PieEntry(300,"专注运动"));
-        pieEntryList.add(new PieEntry(100,"专注会议"));
-
-        PieDataSet pieDataSet=new PieDataSet(pieEntryList,"");
-
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(Color.RED);
-        colors.add(Color.BLUE);
-        colors.add(Color.YELLOW);
-
-        pieDataSet.setColors(colors);
-
-        PieData pieData = new PieData(pieDataSet);
-        pieData.setDrawValues(false);
-
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-
+        initDataFromDatabase();
+        initUI();
+        putDataIntoDiagram();
 
     }
 
 
-    private void showBarChart(){
+    private void initDataFromDatabase(){
+        this.historyDatabaseOpenHelper=new HistoryDatabaseOpenHelper(this,"Records.db",null,1);
+        SQLiteDatabase sqLiteDatabase=historyDatabaseOpenHelper.getWritableDatabase();
+
+        Cursor cursor=sqLiteDatabase.query("Record",null,null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            do{
+                int id=cursor.getInt(cursor.getColumnIndex("id"));
+                int correct=cursor.getInt(cursor.getColumnIndex("correct"));
+                int incorrect=cursor.getInt(cursor.getColumnIndex("incorrect"));
+                long date=cursor.getLong(cursor.getColumnIndex("date"));
+                Record record=new Record(id,correct,incorrect,date);
+                if(SystemClock.currentThreadTimeMillis()-record.getDate()<7*24*60*60*1000){
+                    recordArrayList.add(record);
+                }else{
+
+                }
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+    }
+
+    private void initUI(){
+        Description description = new Description();
+        description.setText("Remember P.K. Forget");
+        lineChart.setDescription(description);
+        //设置没有数据时显示的文本
+        lineChart.setNoDataText("There aren't any data");
+        //设置是否绘制chart边框的线
+        lineChart.setDrawBorders(true);
+
+        //设置chart边框线宽度
+        lineChart.setBorderWidth(1f);
+        //设置chart是否可以触摸
+        lineChart.setTouchEnabled(true);
+        //设置是否可以拖拽
+        lineChart.setDragEnabled(true);
+        //设置是否可以缩放 x和y，默认true
+        lineChart.setScaleEnabled(false);
+        //设置是否可以通过双击屏幕放大图表。默认是true
+        lineChart.setDoubleTapToZoomEnabled(false);
+        //设置chart动画
+        lineChart.animateXY(1000, 1000);
+
+
+        Legend legend = lineChart.getLegend();
+        //设置图例显示在chart那个位置 setPosition建议放弃使用了
+        //设置垂直方向上还是下或中
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        //设置水平方向是左边还是右边或中
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        //设置所有图例位置排序方向
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        //设置图例的形状 有圆形、正方形、线
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        //是否支持自动换行 目前只支持BelowChartLeft, BelowChartRight, BelowChartCenter
+        legend.setWordWrapEnabled(true);
+
+
+
+        XAxis xAxis = lineChart.getXAxis();
+        //是否启用X轴
+        xAxis.setEnabled(true);
+        //是否绘制X轴线
+        xAxis.setDrawAxisLine(true);
+        //设置X轴上每个竖线是否显示
+        xAxis.setDrawGridLines(true);
+        //设置是否绘制X轴上的对应值(标签)
+        xAxis.setDrawLabels(true);
+        //设置X轴显示位置
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        //设置竖线为虚线样式
+
+        //=================设置左边Y轴===============
+        YAxis axisLeft = lineChart.getAxisLeft();
+        //是否启用左边Y轴
+        axisLeft.setEnabled(true);
+        axisLeft.enableGridDashedLine(10f, 10f, 0f);
+    }
+
+    private void putDataIntoDiagram(){
+        for(int i=0;i<recordArrayList.size();i++){
+            rememberPoints.add(new Entry(i,recordArrayList.get(i).getCorrect()));
+            forgetPoints.add(new Entry(i,recordArrayList.get(i).getIncorrect(),i));
+        }
+        LineDataSet rememberLineData = new LineDataSet(rememberPoints, "Remember");
+        LineDataSet forgetLineData=new LineDataSet(forgetPoints,"Forget");
+        //设置该线的颜色
+
+        rememberLineData.setColor(Color.parseColor("#4CAF50"));
+        forgetLineData.setColor(Color.parseColor("#E64A19"));
+
+        rememberLineData.setCircleColor(Color.parseColor("#8BC34A"));
+
+        forgetLineData.setCircleColor(Color.parseColor("#FF5252"));
+        //设置该线的宽度
+
+        rememberLineData.setLineWidth(2f);
+        forgetLineData.setLineWidth(2f);
+        rememberLineData.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        forgetLineData.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        List<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(rememberLineData);
+        dataSets.add(forgetLineData);
+        //把要画的所有线(线的集合)添加到LineData里
+        LineData lineData = new LineData(dataSets);
+        //把最终的数据setData
+        lineChart.setData(lineData);
 
     }
 }

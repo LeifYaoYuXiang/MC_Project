@@ -7,10 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".HistoryActivity">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+    <!--<com.github.mikephil.charting.charts.BarChart-->
+        <!--android:id="@+id/bar_chart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</com.github.mikephil.charting.charts.BarChart>-->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.github.mikephil.charting.charts.PieChart>
-
+    </com.github.mikephil.charting.charts.LineChart>
 </LinearLayout>

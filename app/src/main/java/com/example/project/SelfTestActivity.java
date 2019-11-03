@@ -1,8 +1,11 @@
 package com.example.project;
 
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -167,17 +170,31 @@ public class SelfTestActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-       super.onBackPressed();
-        Calendar calendar=Calendar.getInstance();
+        if(totalNumberWordsForget==0&&totalNumberWordsRemember==0){
+            super.onBackPressed();
+        }else{
+            HistoryDatabaseOpenHelper historyDatabaseOpenHelper=new HistoryDatabaseOpenHelper(this,"Records.db",null,1);
+            SQLiteDatabase sqLiteDatabase=historyDatabaseOpenHelper.getWritableDatabase();
+            ContentValues contentValues=new ContentValues();
+            contentValues.put("correct",totalNumberWordsRemember);
+            contentValues.put("incorrect",totalNumberWordsForget);
+            contentValues.put("date",System.currentTimeMillis());
+            sqLiteDatabase.insert("Record",null,contentValues);
 
-
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle("Feedback");
+            builder.setMessage("In this Self Test, you answer "+(totalNumberWordsRemember+totalNumberWordsForget)+"words\n"+
+                    "You remember "+totalNumberWordsRemember + " words\n"+
+                    "You forget "+totalNumberWordsForget+ " words");
+            builder.setPositiveButton("Sure", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(SelfTestActivity.this,FunctionListActivity.class);
+                    startActivity(intent);
+                }
+            });
+            builder.show();
+        }
     }
-
-    @Override
-    protected void onPause() {
-        Toast.makeText(this, totalNumberWordsForget+"---"+totalNumberWordsRemember, Toast.LENGTH_SHORT).show();
-        super.onPause();
-    }
-
 
 }
