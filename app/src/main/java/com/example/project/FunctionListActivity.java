@@ -3,6 +3,7 @@ package com.example.project;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,8 +45,14 @@ public class FunctionListActivity extends AppCompatActivity {
             public void onItemClickListener(View view) {
                 int position=mainRecylcle.getChildAdapterPosition(view);
                 if(position==0){
-                    Intent intent=new Intent(FunctionListActivity.this,PersonalInformationActivity.class);
-                    startActivity(intent);
+                    SharedPreferences sharedPreferences=getSharedPreferences("PersonalInformation",MODE_PRIVATE);
+                    String name=sharedPreferences.getString("userName","");
+                    if("".equals(name)){
+                        dialogPersonalInformation();
+                    }else{
+                        Intent intent=new Intent(FunctionListActivity.this,PersonalInformationActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 if(position==1){
                     Intent intent=new Intent(FunctionListActivity.this,WordListActivity.class);
@@ -135,4 +142,27 @@ public class FunctionListActivity extends AppCompatActivity {
         Intent intent=new Intent(FunctionListActivity.this,MainActivity.class);
         startActivity(intent);
     }
+
+
+    private void dialogPersonalInformation(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(FunctionListActivity.this);
+        builder.setTitle("You have not logged into your account");
+        builder.setMessage("You may need to log into one existed account OR register for new one");
+        builder.setPositiveButton("Log Into One Existed Account", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent=new Intent(FunctionListActivity.this,LogIntoActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Register One New Account", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent=new Intent(FunctionListActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.show();
+    }
+
 }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp">
+
+            <ImageView
+                android:src="@drawable/nickname"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:src="@drawable/password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:src="@drawable/password_ensure"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:src="@drawable/email"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:src="@drawable/gender"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/user_name_register"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:hint="Input your nick name"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"/>
+
+            <EditText
+                android:id="@+id/user_password_register"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="Input your password"
+                android:inputType="textPassword"/>
+
+            <EditText
+                android:id="@+id/user_password_ensure_register"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="Input your password Again"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/user_email_register"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext"
+                android:hint="input your email address"
+                android:inputType="textEmailAddress"
+                />
+
+            <RadioGroup
+                android:id="@+id/user_gender_register"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <RadioButton
+                    android:id="@+id/male_selection_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/female_selection_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"/>
+            </RadioGroup>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:text="Please Input the Your Self Description in Following Square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/user_description_register"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/edittext"
+        android:hint="Self Description"/>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button"/>
+
+</LinearLayout>

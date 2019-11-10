@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ldoublem.loadingviewlib.view.LVPlayBall;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,16 +31,17 @@ public class SelfTestActivity extends AppCompatActivity {
 
     private Button knowThisWord;
     private Button unKnownThisWord;
-    private Button rememberLater;
-    private Button forgetReally;
 
     private TextView pronunciationTextView;
     private TextView wordTextView;
+    private TextView definitionTextView;
+    private LVPlayBall lvPlayBall;
 
     private RelativeLayout testLayout;
     private RelativeLayout answerLayout;
 
     private boolean hasWords=true;
+    private boolean showDefinition =false;
 
 
 
@@ -83,52 +87,86 @@ public class SelfTestActivity extends AppCompatActivity {
     private void initUI(){
         knowThisWord=findViewById(R.id.know_this_word);
         unKnownThisWord=findViewById(R.id.unknown_this_word);
-        rememberLater=findViewById(R.id.i_remember_this_word);
-        forgetReally=findViewById(R.id.jump_to_next_word);
+
+        lvPlayBall=findViewById(R.id.animation_play_ball);
+        definitionTextView=findViewById(R.id.definition);
+
+        lvPlayBall.setViewColor(Color.parseColor("#00BCD4"));
+        lvPlayBall.setBallColor(Color.parseColor("#FFA000"));
+        lvPlayBall.startAnim();
+
 
         pronunciationTextView=findViewById(R.id.self_test_pronunciation);
         wordTextView=findViewById(R.id.self_test_english);
 
-        testLayout=findViewById(R.id.choose_know_unknown);
-        answerLayout=findViewById(R.id.self_test_translation);
-
         knowThisWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jumpToNextWord();
-                totalNumberWordsRemember++;
+                if(!showDefinition){
+                    showDefinition=false;
+                    totalNumberWordsRemember++;
+                    index++;
+                    if(index<testWordsList.size()){
+                        Word temp=testWordsList.get(index);
+                        String tempPronunciation=temp.getPronunciation();
+                        String tempEnglish=temp.getEnglish();
+                        pronunciationTextView.setText(tempPronunciation);
+                        wordTextView.setText(tempEnglish);
+                    }else{
+                        onBackPressed();
+                    }
+                }else{
+                    knowThisWord.setText("I know this word");
+                    unKnownThisWord.setText("I forget this word");
+                    totalNumberWordsRemember++;
+                    index++;
+                    definitionTextView.setVisibility(View.GONE);
+                    showDefinition=false;
+                    if(index<testWordsList.size()){
+                        Word temp=testWordsList.get(index);
+                        String tempPronunciation=temp.getPronunciation();
+                        String tempEnglish=temp.getEnglish();
+                        pronunciationTextView.setText(tempPronunciation);
+                        wordTextView.setText(tempEnglish);
+                    }else{
+                        onBackPressed();
+                    }
+                }
             }
         });
 
         unKnownThisWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showExplanations();
-                testLayout.setVisibility(View.GONE);
-                answerLayout.setVisibility(View.VISIBLE);
+                if(!showDefinition){
+                    if(index<testWordsList.size()){
+                        knowThisWord.setText("Oh I remember it now");
+                        unKnownThisWord.setText("I really forget");
+                        showExplanations();
+                        showDefinition=true;
+                    }else{
+                        onBackPressed();
+                    }
+                }else{
+                    knowThisWord.setText("I know this word");
+                    unKnownThisWord.setText("I forget this word");
+                    totalNumberWordsForget++;
+                    index++;
+                    definitionTextView.setVisibility(View.GONE);
+                    showDefinition=false;
+                    if(index<testWordsList.size()){
+                        Word temp=testWordsList.get(index);
+                        String tempPronunciation=temp.getPronunciation();
+                        String tempEnglish=temp.getEnglish();
+                        pronunciationTextView.setText(tempPronunciation);
+                        wordTextView.setText(tempEnglish);
+                    }else{
+                        onBackPressed();
+                    }
+                }
             }
         });
 
-        rememberLater.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jumpToNextWord();
-                answerLayout.setVisibility(View.GONE);
-                testLayout.setVisibility(View.VISIBLE);
-                totalNumberWordsRemember++;
-
-            }
-        });
-
-        forgetReally.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                jumpToNextWord();
-                answerLayout.setVisibility(View.GONE);
-                testLayout.setVisibility(View.VISIBLE);
-                totalNumberWordsForget++;
-            }
-        });
     }
 
     private void initTest(){
@@ -144,26 +182,14 @@ public class SelfTestActivity extends AppCompatActivity {
 
     }
 
-    private void jumpToNextWord(){
-        index++;
-        if(index<testWordsList.size()){
-            Word temp=testWordsList.get(index);
-            String tempPronunciation=temp.getPronunciation();
-            String tempEnglish=temp.getEnglish();
-            pronunciationTextView.setText(tempPronunciation);
-            wordTextView.setText(tempEnglish);
-        }else{
-            Toast.makeText(SelfTestActivity.this, "Reach the end", Toast.LENGTH_SHORT).show();
-
-        }
-    }
 
     private void showExplanations(){
         Word temp=testWordsList.get(index);
         String English=temp.getEnglish();
         String Chinese=temp.getChinese();
         String ChineseDetail=temp.getChineseDetail();
-        wordTextView.setText(English+"\n"+Chinese+"\n"+ChineseDetail);
+        definitionTextView.setText(Chinese+"\n"+ChineseDetail);
+        definitionTextView.setVisibility(View.VISIBLE);
     }
 
 

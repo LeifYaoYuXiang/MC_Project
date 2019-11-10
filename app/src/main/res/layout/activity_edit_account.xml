@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonalInformationActivity"
+    tools:context=".EditAccountActivity"
     android:orientation="vertical">
+
 
     <ImageView
         android:layout_width="50dp"
@@ -59,7 +61,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/user_id_display"
+                android:id="@+id/user_id_edit"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -68,7 +70,16 @@
                 android:background="@drawable/edittext"/>
 
             <TextView
-                android:id="@+id/user_name_display"
+                android:id="@+id/user_name_edit"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:background="@drawable/edittext"/>
+
+            <EditText
+                android:id="@+id/user_email_edit"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -77,16 +88,7 @@
                 android:background="@drawable/edittext"/>
 
             <TextView
-                android:id="@+id/user_email_display"
-                android:layout_width="280dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:textAlignment="center"
-                android:background="@drawable/edittext"/>
-
-            <TextView
-                android:id="@+id/user_gender_display"
+                android:id="@+id/user_gender_edit"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -102,29 +104,22 @@
         android:layout_height="150dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edittext">
-        <TextView
-            android:id="@+id/user_description_display"
+        <EditText
+            android:id="@+id/user_description_edit"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:textAlignment="center"/>
     </ScrollView>
 
     <Button
-        android:id="@+id/edit_personal_information"
+        android:id="@+id/edit_commit"
         android:layout_width="300dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
-        android:text="Edit Personal Information"
+        android:text="Commit My Edition"
         android:background="@drawable/button"
         android:layout_gravity="center_horizontal"/>
 
-    <Button
-        android:id="@+id/log_out_account"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:text="Log Out My Account"
-        android:background="@drawable/button"
-        android:layout_gravity="center_horizontal"/>
+
 
 </LinearLayout>

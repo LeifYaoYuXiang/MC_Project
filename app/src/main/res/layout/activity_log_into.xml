@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogIntoActivity"
+    android:orientation="vertical">
+
+    <com.hanks.htextview.HTextView
+        android:id="@+id/animate_login_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25sp"
+        android:text="Log Into Your Account"
+        android:layout_marginTop="150dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20dp">
+
+            <ImageView
+                android:src="@drawable/nickname"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="50dp"/>
+
+            <ImageView
+                android:src="@drawable/password"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/user_name_login"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:hint="Input your user name"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/edittext"/>
+
+            <EditText
+                android:id="@+id/user_password_login"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/edittext"
+                android:hint="Input your password"
+                android:inputType="textPassword"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/log_into_my_account"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Log Into My Account"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+</LinearLayout>

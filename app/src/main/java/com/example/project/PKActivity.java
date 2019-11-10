@@ -1,6 +1,5 @@
 package com.example.project;
 
-import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -8,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.service.autofill.RegexValidator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -35,7 +31,6 @@ import com.ldoublem.loadingviewlib.view.LVGhost;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class PKActivity extends AppCompatActivity {
     private BlueToothController blueToothController=new BlueToothController();;
@@ -281,6 +276,7 @@ public class PKActivity extends AppCompatActivity {
     }
 
     private class MyHandler extends Handler {
+        private boolean jumpOrNot=false;
         @Override
         public void handleMessage(Message message) {
             super.handleMessage(message);
@@ -289,9 +285,18 @@ public class PKActivity extends AppCompatActivity {
                     listen(String.valueOf(message.obj));
                     break;
                 case Constant.MSG_ERROR:
-                    Toast.makeText(PKActivity.this, "error:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
-                    startActivity(intent);
+                    //Toast.makeText(PKActivity.this, "error:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
+                    if(!jumpOrNot){
+                        jumpOrNot=true;
+                        Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
+                        startActivity(intent);
+                        //onDestroy();
+                    }else{
+                        //onDestroy();
+                    }
+//                    Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
+//                    startActivity(intent);
+//                    onDestroy();
                     break;
                 case Constant.MSG_CONNECTED_TO_SERVER:
                     Toast.makeText(PKActivity.this, "Connect to One Server", Toast.LENGTH_SHORT).show();
