@@ -22,6 +22,19 @@
             android:layout_height="200px">
         </SearchView>
 
+        <ImageView
+            android:id="@+id/beautiful_image"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/quotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/beautiful_image"/>
+
 
         <TextView
             android:id="@+id/swipeInstrcution"
