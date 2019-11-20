@@ -18,6 +18,13 @@
            android:layout_marginLeft="10dp"
            android:textStyle="bold"
            android:textSize="30sp"/>
+
+       <ImageView
+           android:id="@+id/save_already"
+           android:layout_width="30dp"
+           android:layout_height="30dp"
+           android:layout_centerHorizontal="true"/>
+
       <TextView
           android:id="@+id/pronunciation"
           android:layout_width="wrap_content"
@@ -34,26 +41,27 @@
         android:layout_height="20dp" />
 
     <ScrollView
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp">
+
         <TextView
             android:id="@+id/basic_translation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </ScrollView>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="120dp">
         <TextView
             android:id="@+id/detail_translation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
     </ScrollView>
 
     <RelativeLayout

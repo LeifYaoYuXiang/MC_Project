@@ -23,7 +23,7 @@ public class FunctionListActivity extends AppCompatActivity {
             new Functions("Self Test",R.drawable.exam),
             new Functions("History",R.drawable.history),
             new Functions("PK Mode",R.drawable.pk),
-            new Functions("Settings",R.drawable.settings)
+            new Functions("Preferences",R.drawable.settings)
     };
 
     private List<Functions> functionsList=new ArrayList<>();
