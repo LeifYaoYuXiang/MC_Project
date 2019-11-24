@@ -54,6 +54,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".WidgetProvider">
+            <intent-filter>
+                <!--这个是必须要有的系统规定-->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="UPDATE_ALL"/>
+            </intent-filter>
+            <!--要显示的布局-->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider"/>
+        </receiver>
+        <service android:name=".WidgetService" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APP_WIDGET_SERVICE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

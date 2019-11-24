@@ -1,11 +1,13 @@
 package com.example.project;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -28,6 +30,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ArrayList<Record> recordArrayList=new ArrayList<>();
 
     private LineChart lineChart;
+    private TextView overviewText;
     private ArrayList<Entry> rememberPoints=new ArrayList<>();
     private ArrayList<Entry> forgetPoints=new ArrayList<>();
 
@@ -35,6 +38,11 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        int themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
+
         setContentView(R.layout.activity_history);
         lineChart = findViewById(R.id.line_chart);
 
@@ -68,11 +76,17 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initUI(){
+        overviewText=findViewById(R.id.overview_text);
+        if(recordArrayList.size()==0){
+            overviewText.setText("You didn't attend self-practice in the latest seven days");
+        }else{
+            overviewText.setText("You have attend "+recordArrayList.size()+" tests in the latest seven days.");
+        }
+
         Description description = new Description();
         description.setText("Remember P.K. Forget");
         lineChart.setDescription(description);
-        //设置没有数据时显示的文本
-        lineChart.setNoDataText("There aren't any data");
+
         //设置是否绘制chart边框的线
         lineChart.setDrawBorders(true);
 
@@ -89,7 +103,9 @@ public class HistoryActivity extends AppCompatActivity {
         //设置chart动画
         lineChart.animateXY(1000, 1000);
 
-
+        lineChart.setNoDataText("You haven't test yourself yet");
+        float ratio = (float) recordArrayList.size()/(float) 10;
+        lineChart.zoom(ratio,1f,0,0);
         Legend legend = lineChart.getLegend();
         //设置图例显示在chart那个位置 setPosition建议放弃使用了
         //设置垂直方向上还是下或中
@@ -118,7 +134,7 @@ public class HistoryActivity extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         //设置竖线为虚线样式
 
-        //=================设置左边Y轴===============
+        //设置左边Y轴
         YAxis axisLeft = lineChart.getAxisLeft();
         //是否启用左边Y轴
         axisLeft.setEnabled(true);
@@ -133,7 +149,8 @@ public class HistoryActivity extends AppCompatActivity {
         LineDataSet rememberLineData = new LineDataSet(rememberPoints, "Remember");
         LineDataSet forgetLineData=new LineDataSet(forgetPoints,"Forget");
         //设置该线的颜色
-
+        rememberLineData.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        forgetLineData.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         rememberLineData.setColor(Color.parseColor("#4CAF50"));
         forgetLineData.setColor(Color.parseColor("#E64A19"));
 
@@ -144,8 +161,18 @@ public class HistoryActivity extends AppCompatActivity {
 
         rememberLineData.setLineWidth(2f);
         forgetLineData.setLineWidth(2f);
-        rememberLineData.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        forgetLineData.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        rememberLineData.setDrawFilled(true);
+        rememberLineData.setFillAlpha(50);
+        rememberLineData.setFillColor(Color.parseColor("#8BC34A"));
+
+        forgetLineData.setDrawFilled(true);
+        forgetLineData.setFillAlpha(50);
+        forgetLineData.setFillColor(Color.parseColor("#FF5252"));
+
+        rememberLineData.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        forgetLineData.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+
+
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(rememberLineData);
         dataSets.add(forgetLineData);

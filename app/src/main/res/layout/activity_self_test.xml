@@ -17,7 +17,8 @@
             android:layout_height="20dp"
             android:layout_marginTop="30dp"
             android:textSize="18sp"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="?text_cl"/>
 
         <TextView
             android:id="@+id/self_test_english"
@@ -25,14 +26,15 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:gravity="center"
-            android:layout_marginTop="70dp"/>
+            android:layout_marginTop="70dp"
+            android:textColor="?text_cl"/>
 
         <com.ldoublem.loadingviewlib.view.LVPlayBall
             android:id="@+id/animation_play_ball"
             android:layout_width="220dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="50dp"/>
 
         <ScrollView
             android:layout_marginTop="30dp"
@@ -44,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:visibility="gone"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textColor="?text_cl"/>
         </ScrollView>
     </LinearLayout>
 

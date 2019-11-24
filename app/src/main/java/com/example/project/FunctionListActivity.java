@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,6 +33,18 @@ public class FunctionListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences=getSharedPreferences("themePre",MODE_PRIVATE);
+        int themeID=sharedPreferences.getInt("themeID",-1);
+        setTheme(themeID);
+    }
+
+    @Override
+    protected void onResume() {
+        SharedPreferences sharedPreferences=getSharedPreferences("themePre",MODE_PRIVATE);
+        int themeID=sharedPreferences.getInt("themeID",-1);
+        Log.d("TAG",themeID+"");
+        setTheme(themeID);
+
         setContentView(R.layout.activity_function_list);
         initFunctions();
         final RecyclerView mainRecylcle=findViewById(R.id.function_recycle);
@@ -80,6 +93,8 @@ public class FunctionListActivity extends AppCompatActivity {
 
             }
         });
+
+        super.onResume();
     }
 
     private void initFunctions() {

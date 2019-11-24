@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
@@ -24,10 +25,17 @@ public class WordListActivity extends AppCompatActivity {
     private List<Word> wordList=new ArrayList<>();
     private List<String> EnglishList=new ArrayList<>();
     private List<String> ChineseList=new ArrayList<>();
+    private int themeID;
+    public WordAdapter resumeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
+
         setContentView(R.layout.activity_word_list);
 
         TranslationsList=findViewById(R.id.translations_pairs);
@@ -53,7 +61,16 @@ public class WordListActivity extends AppCompatActivity {
                     }while(cursor.moveToNext());
                 }
                 cursor.close();
-                final WordAdapter noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
+                WordAdapter noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
+                if(themeID==R.style.GrayTheme){
+                     noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_grey,wordList);
+                }
+                if(themeID==R.style.PinkTheme){
+                    noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_pink,wordList);
+                }
+                if(themeID==R.style.BlueTheme){
+                    noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_blue,wordList);
+                }
                 TranslationsList.setAdapter(noteAdapter);
 
                 return false;
@@ -76,7 +93,16 @@ public class WordListActivity extends AppCompatActivity {
                     }while(cursor.moveToNext());
                 }
                 cursor.close();
-                final WordAdapter noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
+                WordAdapter noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
+                if(themeID==R.style.GrayTheme){
+                    noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_grey,wordList);
+                }
+                if(themeID==R.style.PinkTheme){
+                    noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_pink,wordList);
+                }
+                if(themeID==R.style.BlueTheme){
+                    noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_blue,wordList);
+                }
                 TranslationsList.setAdapter(noteAdapter);
                 return false;
             }
@@ -91,14 +117,24 @@ public class WordListActivity extends AppCompatActivity {
         this.wordList=new ArrayList<>();
         initDatabase();
 
-        final WordAdapter noteAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
-        TranslationsList.setAdapter(noteAdapter);
+        resumeAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item,wordList);
+        if(themeID==R.style.GrayTheme){
+            resumeAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_grey,wordList);
+        }
+        if(themeID==R.style.PinkTheme){
+            resumeAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_pink,wordList);
+        }
+        if(themeID==R.style.BlueTheme){
+            resumeAdapter=new WordAdapter(WordListActivity.this,R.layout.word_item_blue,wordList);
+        }
+
+        TranslationsList.setAdapter(resumeAdapter);
         TranslationsList.setTextFilterEnabled(true);
 
         TranslationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int i, long l) {
-                Word temp=noteAdapter.getItem(i);
+                Word temp=resumeAdapter.getItem(i);
                 int id=temp.getId();
 
                 String English="";
@@ -135,10 +171,8 @@ public class WordListActivity extends AppCompatActivity {
                 aBuider.setPositiveButton("Delete!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        Word temp=noteAdapter.getItem(i);
-
+                        Word temp=resumeAdapter.getItem(i);
                         int id=temp.getId();
-
                         SQLiteDatabase sqLiteDatabase=wordListOpenHelper.getWritableDatabase();
                         sqLiteDatabase.delete("Word","id=?",new String[]{id+""});
                         Intent intent=new Intent(WordListActivity.this,WordListActivity.class);

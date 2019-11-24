@@ -2,11 +2,13 @@ package com.example.project;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +26,15 @@ public class LogIntoActivity extends AppCompatActivity {
     private EditText userNameTextView;
     private EditText userPasswordTextView;
     private Button login;
-
+    private int themeID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
         Bmob.initialize(this,"a68d15cc107400e52c8d4c0da58acc39");
+
         setContentView(R.layout.activity_log_into);
 
         HTextView hTextView=findViewById(R.id.animate_login_text_view);
@@ -41,6 +47,24 @@ public class LogIntoActivity extends AppCompatActivity {
         userNameTextView=findViewById(R.id.user_name_login);
         userPasswordTextView=findViewById(R.id.user_password_login);
         login=findViewById(R.id.log_into_my_account);
+
+        ImageView nickname=findViewById(R.id.image_login_nickname);
+        ImageView password=findViewById(R.id.image_login_password);
+
+        if(themeID==R.style.AppTheme){
+            nickname.setImageResource(R.drawable.nickname_orange);
+            password.setImageResource(R.drawable.password_orange);
+        }else if(themeID==R.style.PinkTheme){
+            nickname.setImageResource(R.drawable.nickname_pink);
+            password.setImageResource(R.drawable.password_pink);
+            login.setBackground(LogIntoActivity.this.getResources().getDrawable(R.drawable.button_pink));
+        }else if(themeID==R.style.BlueTheme){
+            login.setBackground(LogIntoActivity.this.getResources().getDrawable(R.drawable.button_blue));
+        }else if(themeID==R.style.GrayTheme){
+            nickname.setImageResource(R.drawable.nickname_grey);
+            password.setImageResource(R.drawable.password_grey);
+            login.setBackground(LogIntoActivity.this.getResources().getDrawable(R.drawable.button_grey));
+        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

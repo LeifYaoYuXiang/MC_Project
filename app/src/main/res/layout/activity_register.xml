@@ -17,30 +17,35 @@
             android:layout_marginLeft="20dp">
 
             <ImageView
+                android:id="@+id/image_register_nickname"
                 android:src="@drawable/nickname"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"/>
 
             <ImageView
+                android:id="@+id/image_register_password"
                 android:src="@drawable/password"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"/>
 
             <ImageView
+                android:id="@+id/image_register_password_ensure"
                 android:src="@drawable/password_ensure"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"/>
 
             <ImageView
+                android:id="@+id/image_register_email"
                 android:src="@drawable/email"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"/>
 
             <ImageView
+                android:id="@+id/image_register_gender"
                 android:src="@drawable/gender"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

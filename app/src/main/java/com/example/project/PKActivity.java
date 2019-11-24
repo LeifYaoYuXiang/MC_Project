@@ -285,18 +285,13 @@ public class PKActivity extends AppCompatActivity {
                     listen(String.valueOf(message.obj));
                     break;
                 case Constant.MSG_ERROR:
-                    //Toast.makeText(PKActivity.this, "error:" + String.valueOf(message.obj), Toast.LENGTH_SHORT).show();
                     if(!jumpOrNot){
                         jumpOrNot=true;
                         Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
                         startActivity(intent);
-                        //onDestroy();
                     }else{
-                        //onDestroy();
+
                     }
-//                    Intent intent=new Intent(PKActivity.this,ErrorBluetoothInformationActivity.class);
-//                    startActivity(intent);
-//                    onDestroy();
                     break;
                 case Constant.MSG_CONNECTED_TO_SERVER:
                     Toast.makeText(PKActivity.this, "Connect to One Server", Toast.LENGTH_SHORT).show();
@@ -323,21 +318,24 @@ public class PKActivity extends AppCompatActivity {
     }
 
     private void say(String word) {
-        if (mAcceptThread != null) {
-            try {
-                mAcceptThread.sendData(word.getBytes("utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+        if(word.contains("%")||word.contains("-")){
+            Toast.makeText(this, "Here are some illegal chars(% OR -),please do not use them", Toast.LENGTH_SHORT).show();
+        }else{
+            if (mAcceptThread != null) {
+                try {
+                    mAcceptThread.sendData(word.getBytes("utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if( mConnectThread != null) {
+                try {
+                    mConnectThread.sendData(word.getBytes("utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        else if( mConnectThread != null) {
-            try {
-                mConnectThread.sendData(word.getBytes("utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     private void listen(String string){

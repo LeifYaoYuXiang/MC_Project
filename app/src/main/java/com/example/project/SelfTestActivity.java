@@ -3,6 +3,7 @@ package com.example.project;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -42,7 +43,7 @@ public class SelfTestActivity extends AppCompatActivity {
 
     private boolean hasWords=true;
     private boolean showDefinition =false;
-
+    int themeID;
 
 
     @Override
@@ -56,6 +57,9 @@ public class SelfTestActivity extends AppCompatActivity {
         }else{
             Collections.shuffle(testWordsList);
         }
+        SharedPreferences preferences= getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = preferences.getInt("themeID", -1);
+        setTheme(themeID);
 
         setContentView(R.layout.activity_self_test);
         initUI();
@@ -98,6 +102,19 @@ public class SelfTestActivity extends AppCompatActivity {
 
         pronunciationTextView=findViewById(R.id.self_test_pronunciation);
         wordTextView=findViewById(R.id.self_test_english);
+
+        if(themeID==R.style.AppTheme){
+
+        }else if(themeID==R.style.PinkTheme){
+            knowThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_pink));
+            unKnownThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_pink));
+        }else if(themeID==R.style.BlueTheme){
+            knowThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_blue));
+            unKnownThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_blue));
+        }else if(themeID==R.style.GrayTheme){
+            knowThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_grey));
+            unKnownThisWord.setBackground(SelfTestActivity.this.getResources().getDrawable(R.drawable.button_grey));
+        }
 
         knowThisWord.setOnClickListener(new View.OnClickListener() {
             @Override

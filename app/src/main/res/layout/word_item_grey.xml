@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="12dip"
+    android:paddingRight="12dp"
+    android:paddingBottom="4dip">
+
+    <ImageView
+        android:id="@+id/blueIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/words_grey" />
+
+    <TextView
+        android:id="@+id/EnglishExpression"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/blueIcon"
+        android:paddingLeft="14dp"
+        android:textColor="?text_cl"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/ChineseExpression"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

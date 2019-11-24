@@ -28,12 +28,14 @@
             android:layout_marginLeft="20dp">
 
             <ImageView
+                android:id="@+id/image_login_nickname"
                 android:src="@drawable/nickname"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="50dp"/>
 
             <ImageView
+                android:id="@+id/image_login_password"
                 android:src="@drawable/password"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

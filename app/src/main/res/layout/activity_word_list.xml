@@ -16,11 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
         </android.support.v7.widget.SearchView>
+
         <ListView
             android:id="@+id/translations_pairs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="?list_divider"
+            android:dividerHeight="1px">
         </ListView>
+
     </LinearLayout>
 
 

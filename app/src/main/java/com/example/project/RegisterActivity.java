@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -41,11 +42,16 @@ public class RegisterActivity extends AppCompatActivity {
     private String userEmail="";
     private String userGender="";
     private String userDescription="";
+    int themeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bmob.initialize(this,"a68d15cc107400e52c8d4c0da58acc39");
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
+
         setContentView(R.layout.activity_register);
         initUI();
 
@@ -63,6 +69,36 @@ public class RegisterActivity extends AppCompatActivity {
         femaleSelection=findViewById(R.id.female_selection_register);
         descriptionInput=findViewById(R.id.user_description_register);
 
+        ImageView nickname=findViewById(R.id.image_register_nickname);
+        ImageView password=findViewById(R.id.image_register_password);
+        ImageView ensure_password=findViewById(R.id.image_register_password_ensure);
+        ImageView email=findViewById(R.id.image_register_email);
+        ImageView gender=findViewById(R.id.image_register_gender);
+
+        if(themeID==R.style.AppTheme){
+            nickname.setImageResource(R.drawable.nickname_orange);
+            password.setImageResource(R.drawable.password_orange);
+            ensure_password.setImageResource(R.drawable.password_ensure_orange);
+            email.setImageResource(R.drawable.email_orange);
+            gender.setImageResource(R.drawable.gender_orange);
+            register.setBackground(RegisterActivity.this.getResources().getDrawable(R.drawable.button));
+        }else if(themeID==R.style.PinkTheme){
+            nickname.setImageResource(R.drawable.nickname_pink);
+            password.setImageResource(R.drawable.password_pink);
+            ensure_password.setImageResource(R.drawable.password_ensure_pink);
+            email.setImageResource(R.drawable.email_pink);
+            gender.setImageResource(R.drawable.gender_pink);
+          register.setBackground(RegisterActivity.this.getResources().getDrawable(R.drawable.button_pink));
+        }else if(themeID==R.style.BlueTheme){
+            register.setBackground(RegisterActivity.this.getResources().getDrawable(R.drawable.button_blue));
+        }else if(themeID==R.style.GrayTheme){
+            nickname.setImageResource(R.drawable.nickname_grey);
+            password.setImageResource(R.drawable.password_grey);
+            ensure_password.setImageResource(R.drawable.password_ensure_grey);
+            email.setImageResource(R.drawable.email_grey);
+            gender.setImageResource(R.drawable.gender_grey);
+            register.setBackground(RegisterActivity.this.getResources().getDrawable(R.drawable.button_grey));
+        }
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

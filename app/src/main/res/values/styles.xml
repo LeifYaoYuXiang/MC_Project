@@ -6,6 +6,40 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="text_cl">@color/colorAccent</item>
+        <item name="button_bg">@color/colorPrimary</item>
+        <item name="button_bg_pressed">@color/colorPrimaryDark</item>
+        <item name="list_divider">@color/colorPrimary</item>
+    </style>
+
+    <style name="PinkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryDark">#7B1FA2</item>
+        <item name="colorAccent">#FF4081</item>
+        <item name="text_cl">#FF4081</item>
+        <item name="button_bg">#9C27B0</item>
+        <item name="button_bg_pressed">#7B1FA2</item>
+        <item name="list_divider">#9C27B0</item>
+    </style>
+
+    <style name="BlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#03A9F4</item>
+        <item name="colorPrimaryDark">#0288D1</item>
+        <item name="colorAccent">#536DFE</item>
+        <item name="text_cl">#536DFE</item>
+        <item name="button_bg">#0288D1</item>
+        <item name="button_bg_pressed">#03A9F4</item>
+        <item name="list_divider">#03A9F4</item>
+    </style>
+
+    <style name="GrayTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#9E9E9E</item>
+        <item name="colorPrimaryDark">#616161</item>
+        <item name="colorAccent">#607D8B</item>
+        <item name="text_cl">#607D8B</item>
+        <item name="button_bg">#9E9E9E</item>
+        <item name="button_bg_pressed">#616161</item>
+        <item name="list_divider">#9E9E9E</item>
     </style>
 
 </resources>
