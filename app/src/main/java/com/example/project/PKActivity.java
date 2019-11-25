@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,7 @@ import com.ldoublem.loadingviewlib.view.LVBlazeWood;
 import com.ldoublem.loadingviewlib.view.LVEatBeans;
 import com.ldoublem.loadingviewlib.view.LVFunnyBar;
 import com.ldoublem.loadingviewlib.view.LVGhost;
+import com.vstechlab.easyfonts.EasyFonts;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -76,6 +78,7 @@ public class PKActivity extends AppCompatActivity {
     private LVGhost lvGhost;
     private LVEatBeans lvEatBeans;
     private LVFunnyBar lvFunnyBar;
+    private int themeID;
 
 
     private BroadcastReceiver receiver=new BroadcastReceiver() {
@@ -131,6 +134,11 @@ public class PKActivity extends AppCompatActivity {
         }else{
             asker=false;
         }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
+
         setContentView(R.layout.activity_pk);
         registerBluetoothReceiver();
 
@@ -159,13 +167,16 @@ public class PKActivity extends AppCompatActivity {
         button=findViewById(R.id.startPK);
         status=findViewById(R.id.showStatus);
         if(asker){
+            status.setTypeface(EasyFonts.funRaiser(PKActivity.this));
             status.setText("You are asking");
         }else{
+            status.setTypeface(EasyFonts.funRaiser(PKActivity.this));
             status.setText("You are answering");
         }
         deviceAdapter=new DeviceAdapter(deviceList,this);
         listView.setAdapter(deviceAdapter);
         listView.setOnItemClickListener(bondedDeviceClick);
+
 
         questionLayout=findViewById(R.id.question_layout);
         answerLayout=findViewById(R.id.answer_layout);
@@ -178,11 +189,14 @@ public class PKActivity extends AppCompatActivity {
 
         questionReceive=findViewById(R.id.question_receive);
         answerBack=findViewById(R.id.answer_back);
+        questionReceive.setTypeface(EasyFonts.ostrichBold(PKActivity.this));
         ensureSendBack=findViewById(R.id.ensure_send_back);
         ensureSendBack.setOnClickListener(giveAnswerBack);
 
         questionAsked=findViewById(R.id.question_asked);
         answerReceived=findViewById(R.id.answer_received);
+        questionAsked.setTypeface(EasyFonts.walkwayBlack(PKActivity.this));
+        answerReceived.setTypeface(EasyFonts.walkwayObliqueUltraBold(PKActivity.this));
         correctOrNot=findViewById(R.id.answer_correct_or_not);
         correct=findViewById(R.id.correct_answer);
         incorrect=findViewById(R.id.incorrect_answer);
@@ -196,6 +210,7 @@ public class PKActivity extends AppCompatActivity {
         });
 
         feedbackTextView=findViewById(R.id.feedback);
+        feedbackTextView.setTypeface(EasyFonts.recognition(PKActivity.this));
         if(asker){
             listView.setVisibility(View.GONE);
         }
@@ -204,6 +219,30 @@ public class PKActivity extends AppCompatActivity {
         lvEatBeans=findViewById(R.id.animation_eatBeans);
         lvFunnyBar=findViewById(R.id.animation_funnyBar);
         lvGhost=findViewById(R.id.animation_ghost);
+
+        if(themeID==R.style.AppTheme){
+            button.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button));
+            giveQuestion.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button));
+            ensureSendBack.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button));
+            sendFeedback.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button));
+        }else if(themeID==R.style.PinkTheme){
+            button.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_pink));
+            giveQuestion.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_pink));
+            ensureSendBack.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_pink));
+            sendFeedback.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_pink));
+        }else if(themeID==R.style.BlueTheme){
+            button.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_blue));
+            giveQuestion.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_blue));
+            ensureSendBack.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_blue));
+            sendFeedback.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_blue));
+        }else if(themeID==R.style.GrayTheme){
+            button.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_grey));
+            giveQuestion.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_grey));
+            ensureSendBack.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_grey));
+            sendFeedback.setBackground(PKActivity.this.getResources().getDrawable(R.drawable.button_grey));
+        }
+
+
     }
 
     private void registerBluetoothReceiver(){
@@ -234,7 +273,11 @@ public class PKActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             String question=questionToGiven.getText().toString();
-            say("QUESTION"+"%"+question);
+            if(question.contains("%")||question.contains("-")){
+                Toast.makeText(PKActivity.this, "Here are some illegal chars(% OR -),please do not use them", Toast.LENGTH_SHORT).show();
+            }else{
+                say("QUESTION"+"%"+question);
+            }
         }
     };
 
@@ -243,7 +286,11 @@ public class PKActivity extends AppCompatActivity {
         public void onClick(View view) {
             String question=questionReceive.getText().toString();
             String answer=answerBack.getText().toString();
-            say("ANSWER"+"%"+question+"-"+answer);
+            if(question.contains("%")||question.contains("-")||answer.contains("%")||answer.contains("-")){
+                Toast.makeText(PKActivity.this, "Here are some illegal chars(% OR -),please do not use them", Toast.LENGTH_SHORT).show();
+            }else{
+                say("ANSWER"+"%"+question+"-"+answer);
+            }
         }
     };
 
@@ -318,22 +365,18 @@ public class PKActivity extends AppCompatActivity {
     }
 
     private void say(String word) {
-        if(word.contains("%")||word.contains("-")){
-            Toast.makeText(this, "Here are some illegal chars(% OR -),please do not use them", Toast.LENGTH_SHORT).show();
-        }else{
-            if (mAcceptThread != null) {
-                try {
-                    mAcceptThread.sendData(word.getBytes("utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+        if (mAcceptThread != null) {
+            try {
+                mAcceptThread.sendData(word.getBytes("utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-            else if( mConnectThread != null) {
-                try {
-                    mConnectThread.sendData(word.getBytes("utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+        }
+        else if( mConnectThread != null) {
+            try {
+                mConnectThread.sendData(word.getBytes("utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -377,8 +420,8 @@ public class PKActivity extends AppCompatActivity {
                     feedbackLayout.setVisibility(View.GONE);
                     lvFunnyBar.stopAnim();
 
-                    questionAsked.setText(question);
-                    answerReceived.setText(answer);
+                    questionAsked.setText("QUESTION:    "+question);
+                    answerReceived.setText("ANSWER:    "+answer);
                 }else{
                     Toast.makeText(this, "SOME THING GOES WRONG", Toast.LENGTH_SHORT).show();
                 }

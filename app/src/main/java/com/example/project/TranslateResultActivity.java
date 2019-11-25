@@ -3,6 +3,7 @@ package com.example.project;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -35,10 +36,17 @@ public class TranslateResultActivity extends AppCompatActivity {
     private Button remember;
     private Button forget;
     private LVCircularJump lvCircularJump;
-
+    private int themeID;
+    private int tick_image_url=R.drawable.tick;
+    private String colorAnimation="#FF5722";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("themePre", MODE_PRIVATE);
+        themeID = sharedPreferences.getInt("themeID", -1);
+        setTheme(themeID);
+
         setContentView(R.layout.activity_translate_result);
         Intent intent=getIntent();
         Bundle bundle=intent.getExtras();
@@ -51,7 +59,7 @@ public class TranslateResultActivity extends AppCompatActivity {
 
         final String[] translation=this.parseJSON(res);
         String test="[\""+English+"\"]";
-        lvCircularJump.setViewColor(Color.parseColor("#FF5722"));
+        lvCircularJump.setViewColor(Color.parseColor(colorAnimation));
         lvCircularJump.startAnim();
         remember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +78,7 @@ public class TranslateResultActivity extends AppCompatActivity {
                 contentValues.put("ChineseDetail",translation[1]);
                 sqLiteDatabase.insert("Word",null,contentValues);
                 Toast.makeText(TranslateResultActivity.this, "Store this word!", Toast.LENGTH_SHORT).show();
-                tick.setImageResource(R.drawable.tick);
+                tick.setImageResource(tick_image_url);
                 forget.setClickable(false);
             }
         });
@@ -82,7 +90,7 @@ public class TranslateResultActivity extends AppCompatActivity {
             basicTranslation.setText("Your Spelling is Wrong!");
         }else{
             if(savedAlready()){
-                tick.setImageResource(R.drawable.tick);
+                tick.setImageResource(tick_image_url);
                 forget.setClickable(false);
             }
             englishWord.setText(English);
@@ -137,6 +145,33 @@ public class TranslateResultActivity extends AppCompatActivity {
         remember=findViewById(R.id.rememberIt);
         forget=findViewById(R.id.putIntoList);
         lvCircularJump=findViewById(R.id.animation_jump);
+
+        ImageView yes=findViewById(R.id.image_translate_yes);
+        ImageView no=findViewById(R.id.image_translate_no);
+
+        if(themeID==R.style.AppTheme){
+        }else if(themeID==R.style.GrayTheme){
+            yes.setImageResource(R.drawable.yes_grey);
+            no.setImageResource(R.drawable.no_grey);
+            tick_image_url=R.drawable.tick_grey;
+            colorAnimation="#607D8B";
+            remember.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_grey));
+            forget.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_grey));
+        }else if(themeID==R.style.BlueTheme){
+            yes.setImageResource(R.drawable.yes_blue);
+            no.setImageResource(R.drawable.no_blue);
+            tick_image_url=R.drawable.tick_blue;
+            colorAnimation="#0288D1";
+            remember.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_blue));
+            forget.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_blue));
+        }else if(themeID==R.style.PinkTheme){
+            yes.setImageResource(R.drawable.yes_pink);
+            no.setImageResource(R.drawable.no_pink);
+            tick_image_url=R.drawable.tick_pink;
+            colorAnimation="#9C27B0";
+            remember.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_pink));
+            forget.setBackground(TranslateResultActivity.this.getResources().getDrawable(R.drawable.button_pink));
+        }
 
     }
 
