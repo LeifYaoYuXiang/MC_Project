@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/*
+* ConnectedThread 负责传输数据
+* */
+
 public class ConnectedThread  extends Thread{
     private final BluetoothSocket mmSocket;
     private final InputStream mmInStream;
@@ -20,7 +24,6 @@ public class ConnectedThread  extends Thread{
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
         mHandler = handler;
-        // 使用临时对象获取输入和输出流，因为成员流是最终的
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
@@ -44,6 +47,7 @@ public class ConnectedThread  extends Thread{
                 // 将获得的bytes发送到UI层activity
                 if( bytes >0) {
                     Message message = mHandler.obtainMessage(Constant.MSG_GOT_DATA, new String(buffer, 0, bytes, "utf-8"));
+                    //这里将Buffer转化为字符串
                     mHandler.sendMessage(message);
                 }
                 Log.d("GOTMSG", "message size" + bytes);
