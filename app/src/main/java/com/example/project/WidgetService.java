@@ -7,6 +7,10 @@ import android.os.IBinder;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @author 潘
+ * @Reference https://blog.csdn.net/alvinhuai/article/details/81565714
+ */
 public class WidgetService extends Service {
     private final String ACTION_UPDATE_ALL = "UPDATE_ALL";
     private static final int UPDATE_TIME = 5000;

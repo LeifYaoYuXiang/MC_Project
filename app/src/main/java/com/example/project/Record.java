@@ -1,5 +1,8 @@
 package com.example.project;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class Record {
     private int id;
     private int correct;

@@ -2,6 +2,10 @@ package com.example.project;
 
 import cn.bmob.v3.BmobObject;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference http://doc.bmob.cn/data/android/develop_doc/
+ */
 public class User extends BmobObject {
 
     private String userName;

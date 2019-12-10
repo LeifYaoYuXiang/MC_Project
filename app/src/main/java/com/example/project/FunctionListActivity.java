@@ -17,6 +17,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class FunctionListActivity extends AppCompatActivity {
     private Functions[] functions={
             new Functions("Personal Information", R.drawable.personal_information),

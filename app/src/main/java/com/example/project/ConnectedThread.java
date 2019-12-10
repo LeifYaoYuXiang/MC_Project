@@ -13,6 +13,10 @@ import java.io.OutputStream;
 * ConnectedThread 负责传输数据
 * */
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference: https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-CN
+ */
 public class ConnectedThread  extends Thread{
     private final BluetoothSocket mmSocket;
     private final InputStream mmInStream;

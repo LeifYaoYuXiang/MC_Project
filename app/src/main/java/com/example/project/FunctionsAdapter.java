@@ -13,6 +13,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class FunctionsAdapter extends RecyclerView.Adapter<FunctionsAdapter.ViewHolder> {
     private Context context;
     private List<Functions> functionsList;

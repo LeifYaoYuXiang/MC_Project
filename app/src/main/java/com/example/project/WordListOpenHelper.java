@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class WordListOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_WORD = "create table Word (" +
             "id integer primary key autoincrement, " +

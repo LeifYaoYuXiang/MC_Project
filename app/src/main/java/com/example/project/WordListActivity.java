@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Leif
+ * @author Leif(Yuxiang Yao)
  */
 public class WordListActivity extends AppCompatActivity {
     private ListView TranslationsList;

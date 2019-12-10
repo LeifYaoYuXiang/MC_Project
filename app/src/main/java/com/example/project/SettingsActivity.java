@@ -14,6 +14,9 @@ import com.ldoublem.loadingviewlib.LVChromeLogo;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class SettingsActivity extends AppCompatActivity {
     private Preference[] preferences={
             new Preference("Juicy Orange(Default)",R.drawable.orange),

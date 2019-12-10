@@ -14,6 +14,9 @@ import com.vstechlab.easyfonts.EasyFonts;
 
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceAdapter.ViewHolder> {
     private Context context;
     private List<Preference> preferenceList;

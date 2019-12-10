@@ -8,12 +8,21 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author: Leif(Yuxiang Yao)
+ * @Reference: https://blog.csdn.net/xialong_927/article/details/80463120
+ */
 public class BlueToothController {
+
     private BluetoothAdapter mAdapter;
+    /*BluetoothAdapter类让用户能执行基本的蓝牙任务。例如： 初始化设备的搜索，查询可匹配的设备集，
+    使用一个已知的MAC地址来初始化一个BluetoothDevice类，创建一个 BluetoothServerSocket类以监听其它设备对本机的连接请求等*/
 
     public BlueToothController(){
         mAdapter = BluetoothAdapter.getDefaultAdapter();
     }
+    /*为了得到这个代表本地蓝牙适配器的 BluetoothAdapter类，调用getDefaultAdapter()这一静态方法。
+    这是所有蓝牙动作使用的第一步。当拥有本地适配器以后， 用户可以获得一系列的BluetoothDevice对象*/
 
     public BluetoothAdapter getAdapter() {
         return mAdapter;

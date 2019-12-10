@@ -1,5 +1,8 @@
 package com.example.project;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class Functions {
     private String description;
     private int imageViewId;

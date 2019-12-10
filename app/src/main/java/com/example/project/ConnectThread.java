@@ -12,6 +12,10 @@ import java.util.UUID;
 * 用于客户端的连接
 * */
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference: https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-CN
+ */
 public class ConnectThread extends Thread {
     private static final UUID MY_UUID = UUID.fromString(Constant.CONNECTTION_UUID);
     private final BluetoothSocket mmSocket;

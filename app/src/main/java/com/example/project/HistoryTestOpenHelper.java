@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class HistoryTestOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_RECORD = "create table Historytest (" +
             "id integer primary key autoincrement, " +

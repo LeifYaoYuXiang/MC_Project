@@ -23,6 +23,10 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Referenece
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Button register;

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * @author Leif(Yaoyuxiang)
+ */
 public class PersonalInformationActivity extends AppCompatActivity {
     private String id;
     private String userName;

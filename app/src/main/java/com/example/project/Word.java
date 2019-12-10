@@ -1,5 +1,8 @@
 package com.example.project;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class Word {
     private String English;
     private String Chinese;

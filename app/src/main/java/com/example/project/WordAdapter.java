@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class WordAdapter extends ArrayAdapter<Word> {
     private int resourceId;
 

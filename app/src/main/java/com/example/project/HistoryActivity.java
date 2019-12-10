@@ -25,6 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference: https://github.com/PhilJay/MPAndroidChart
+ */
 public class HistoryActivity extends AppCompatActivity {
     private HistoryDatabaseOpenHelper historyDatabaseOpenHelper;
     private ArrayList<Record> recordArrayList=new ArrayList<>();

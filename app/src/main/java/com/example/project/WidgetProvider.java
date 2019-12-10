@@ -17,6 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference https://blog.csdn.net/alvinhuai/article/details/81565714
+ */
 public class WidgetProvider extends AppWidgetProvider {
 
     private final String ACTION_UPDATE_ALL = "UPDATE_ALL";

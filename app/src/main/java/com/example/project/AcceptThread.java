@@ -8,6 +8,10 @@ import android.os.Handler;
 import java.io.IOException;
 import java.util.UUID;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @Reference: https://developer.android.com/guide/topics/connectivity/bluetooth?hl=zh-CN
+ */
 public class AcceptThread extends Thread {
     /*
     * 该线程用于服务器端，用于实时监听来自客户端的消息

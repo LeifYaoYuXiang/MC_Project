@@ -14,6 +14,10 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ * @References: http://doc.bmob.cn/data/android/develop_doc/
+ */
 public class EditAccountActivity extends AppCompatActivity {
     private String id;
     private String userName;

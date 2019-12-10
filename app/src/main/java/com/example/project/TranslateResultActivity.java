@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class TranslateResultActivity extends AppCompatActivity {
     public SQLiteDatabase sqLiteDatabase;
     private String English;

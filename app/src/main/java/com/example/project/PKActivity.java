@@ -34,6 +34,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Leif Yao Yuxiang
+ * @Reference https://www.jianshu.com/p/3696923aa4f7
+ */
 public class PKActivity extends AppCompatActivity {
     private BlueToothController blueToothController=new BlueToothController();;
     private DeviceAdapter deviceAdapter;
@@ -82,30 +86,33 @@ public class PKActivity extends AppCompatActivity {
 
 
     private BroadcastReceiver receiver=new BroadcastReceiver() {
+        //Useless,since "find-connect" process happens outside the application to avoid complexity
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)){
+                //开始查找
                 deviceList.clear();
                 deviceAdapter.notifyDataSetChanged();
             } else if(BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)){
-
+                //结束查找
             }
             else if(BluetoothDevice.ACTION_FOUND.equals(action)) {
+                //查找设备
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 deviceList.add(device);
                 deviceAdapter.notifyDataSetChanged();
                 Toast.makeText(context, "Find One", Toast.LENGTH_SHORT).show();
-
             } else if(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED.equals(action)) {
+                //设备扫描模式改变
                 int scanMode = intent.getIntExtra(BluetoothAdapter.EXTRA_SCAN_MODE, 0);
                 if(scanMode == BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE){
                     Toast.makeText(context, "Discoverable", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Not Discoverable", Toast.LENGTH_SHORT).show();
                 }
-
             } else if(BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
+                //绑定状态
                 BluetoothDevice remoteDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(remoteDevice == null) {
                     Toast.makeText(context, "No Equipment", Toast.LENGTH_SHORT).show();
@@ -246,6 +253,8 @@ public class PKActivity extends AppCompatActivity {
     }
 
     private void registerBluetoothReceiver(){
+        //Implicit call: an implicit call is one that does not explicitly indicate component information.
+        // Instead, filter out the required components
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);

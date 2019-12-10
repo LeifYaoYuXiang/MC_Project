@@ -23,6 +23,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Leif(Yuxiang Yao)
+ */
 public class SelfTestActivity extends AppCompatActivity {
     private List<Word> testWordsList=new ArrayList<Word>();
     private WordListOpenHelper wordListOpenHelper;
